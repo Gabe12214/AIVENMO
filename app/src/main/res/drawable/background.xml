@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/backgroundColor" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/terminator_background"
+            android:tileMode="repeat" />
+    </item>
+</layer-list>

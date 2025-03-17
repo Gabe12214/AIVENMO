@@ -1,18 +1,53 @@
-import 'package:http/http.dart' as http;
-import 'package:web3dart/web3dart.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 class WalletService {
-  final String rpcUrl =
-      "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"; // Replace with your Infura ID
-  late Web3Client _client;
+  late WalletConnect connector;
 
   WalletService() {
-    _client = Web3Client(rpcUrl, http.Client());
+    connector = WalletConnect(
+      bridge: 'https://bridge.walletconnect.org',
+      clientMeta: PeerMeta(
+        name: "AIVENMO",
+        description: "A multi-chain crypto wallet",
+        url: "https://aivenmo.com",
+        icons: ["https://aivenmo.com/icon.png"],
+      ),
+    );
+
+    connector.on('connect', (session) {
+      print('Connected: ${session.accounts}');
+    });
+
+    connector.on('session_update', (session) {
+      print('Session updated: ${session.accounts}');
+    });
+
+    connector.on('disconnect', (session) {
+      print('Disconnected');
+    });
   }
 
-  Future<String> getBalance(String walletAddress) async {
-    final address = EthereumAddress.fromHex(walletAddress);
-    final balance = await _client.getBalance(address);
-    return balance.getValueInUnit(EtherUnit.ether).toString();
+  Future<void> connectWallet() async {
+    if (!connector.connected) {
+      try {
+        SessionStatus? session = await connector.createSession(
+          chainId: 1,
+          onDisplayUri: (uri) async {
+            await launchUrl(
+              Uri.parse(uri),
+              mode: LaunchMode.externalApplication,
+            );
+          },
+        );
+        print('Wallet connected: ${session?.accounts}');
+      } catch (e) {
+        print('Error connecting wallet: $e');
+      }
+    }
+  }
+
+  void disconnectWallet() {
+    connector.killSession();
   }
 }
