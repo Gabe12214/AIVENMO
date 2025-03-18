@@ -1,5 +1,5 @@
+cat <<EOL > ~/AndroidStudioProjects/AIVENMO/lib/main.dart
 import 'package:flutter/material.dart';
-
 import 'theme.dart';
 
 void main() {
@@ -30,9 +30,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text(
               'Welcome to Terminator Wallet!',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyText1?.copyWith(fontSize: 24),
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 24),
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -56,3 +54,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+EOL
