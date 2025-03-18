@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               'Welcome to Terminator Wallet!',
               style: Theme.of(
                 context,
-              ).textTheme.bodyText1.copyWith(fontSize: 24),
+              ).textTheme.bodyText1?.copyWith(fontSize: 24),
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                 textStyle: MaterialStateProperty.all(
                   TextStyle(
                     fontFamily: 'TerminatorFont',
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),
